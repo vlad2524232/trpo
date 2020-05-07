@@ -1,26 +1,72 @@
 <?php
-Class ClassA {
 
+class vladException extends RuntimeException
+{
+}
+/**
+ *
+ */
+class B
+{
+    protected $x;
+    function solve($a,$b,$c)
+    {
+        try
+        {
+            if ($a==0)
+            {
+                throw new vladException("Equation does not exist", 1);
+            }
+            else
+            {
+                $x=(-1*$b)/$a;
+            }
+        } catch (vladException $e) {
+            $x=$e;
+        }
+        $this->x=$x;
+        return $x;
+    }
 }
 
-Class ClassB extends ClassA {
-  public function __construct($obj1) {
-	$this->obj1 = $obj1;
-  }
-  protected $obj1;
-}
+/**
+ *
+ */
+class A extends B
+{
+    protected function discr($a,$b,$c)
+    {
+        $discr=pow($b,2)-4*$a*$c;
+        try {
+            if ($discr<0)
+            {
+                throw new vladException("Discriminant less than zero", 1);
+            }
+        } catch (vladException $e) {
+            $discr=$e;
+        }
+        return $discr;
+    }
 
-Class ClassC extends ClassB {
-  public function __construct($obj1, $obj2) {
-	parent::__construct($obj1);
-	$this->obj2 = $obj2;
-  }
-  protected $obj2;
+    function solve($a,$b,$c)
+    {
+        $discr=$this->discr($a,$b,$c);
+        if (is_object($discr)==true){
+            return $discr;
+        }
+        else if ($a==0) {
+            $x[]=parent::solve($b,$c,$a);
+        }
+        else if ($discr == 0)
+        {
+            $x[]=($b*-1)/(2*$a);
+        }
+        else
+        {
+            $x[]=(($b*-1)+sqrt($discr))/(2*$a);
+            $x[]=(($b*-1)-sqrt($discr))/(2*$a);
+        }
+        $this->x=$x;
+        return $x;
+    }
 }
-
-$obj5 = new ClassA();
-$obj4 = new ClassB($obj5);
-$obj3 = new ClassB($obj4);
-$obj2 = new ClassB($obj5);
-$obj1 = new ClassC($obj2, $obj3);
-?>
