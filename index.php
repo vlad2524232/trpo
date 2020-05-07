@@ -2,6 +2,7 @@
 include "core/LogAbstract.php";
 include "core/LogInterface.php";
 include "core/EquationInterface.php";
+include "vlad/MyException.php";
 include "vlad/Log.php";
 include "vlad/Linear.php";
 include "vlad/Square.php";
@@ -26,7 +27,8 @@ $c = $kfArray[2];
 $eq = $a . "x^2 + " . $b . "x + " . $c . " = 0";
 Log::log("Entered equation: " . $eq);
 
-$equation = new Square();
+try {
+	$equation = new Square();
 	$roots = $equation->solve($a, $b, $c);
 	
 	if(count($roots) == 2) {
@@ -35,5 +37,9 @@ $equation = new Square();
 		Log::log("Equation root " . $roots[0] . "\n");
 	}
 	
+} catch(MyException $ex) {
+	Log::log($ex->getMessage() . "\n");
+}
 Log::write();
+
 ?>

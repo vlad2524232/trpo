@@ -20,7 +20,9 @@ Class Square extends Linear implements EquationInterface {
 
   	$disc = $this->findDiscriminant($a, $b, $c);
 
-	
+	if($disc < 0) {
+		throw new MyException("This equation has no roots");
+	}
 	
   	if($disc > 0) {
   	  array_push($this->x, round((-1 * $b + sqrt($disc))/(2 * $a), 3), round((-1 * $b - sqrt($disc))/(2 * $a), 3)); 

@@ -12,7 +12,9 @@ Class Linear {
   }
 
   public function linearSolve($k, $b) {
-	
+	if($k == 0) {
+		throw new MyException("This is not an equation \n");
+	}
 	
     Log::log("Linear equation is entered");
   	$this->x[] = round(($b * -1)/$k, 3);
