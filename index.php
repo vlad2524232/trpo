@@ -1,72 +1,39 @@
 <?php
+include "core/LogAbstract.php";
+include "core/LogInterface.php";
+include "core/EquationInterface.php";
+include "vlad/Log.php";
+include "vlad/Linear.php";
+include "vlad/Square.php";
 
-class vladException extends RuntimeException
-{
-}
-/**
- *
- */
-class B
-{
-    protected $x;
-    function solve($a,$b,$c)
-    {
-        try
-        {
-            if ($a==0)
-            {
-                throw new vladException("Equation does not exist", 1);
-            }
-            else
-            {
-                $x=(-1*$b)/$a;
-            }
-        } catch (vladException $e) {
-            $x=$e;
-        }
-        $this->x=$x;
-        return $x;
-    }
+use vlad\Log;
+use vlad\Square;
+use vlad\Linear;
+use vlad\MyException;
+
+
+echo "Enter koefs a, b, c \n";
+
+for($i = 0; $i < 3; $i ++) {
+	fscanf(STDIN, "%d\n", $number);
+	$kfArray[$i] =  $number;
 }
 
-/**
- *
- */
-class A extends B
-{
-    protected function discr($a,$b,$c)
-    {
-        $discr=pow($b,2)-4*$a*$c;
-        try {
-            if ($discr<0)
-            {
-                throw new vladException("Discriminant less than zero", 1);
-            }
-        } catch (vladException $e) {
-            $discr=$e;
-        }
-        return $discr;
-    }
+$a = $kfArray[0];
+$b = $kfArray[1];
+$c = $kfArray[2];
 
-    function solve($a,$b,$c)
-    {
-        $discr=$this->discr($a,$b,$c);
-        if (is_object($discr)==true){
-            return $discr;
-        }
-        else if ($a==0) {
-            $x[]=parent::solve($b,$c,$a);
-        }
-        else if ($discr == 0)
-        {
-            $x[]=($b*-1)/(2*$a);
-        }
-        else
-        {
-            $x[]=(($b*-1)+sqrt($discr))/(2*$a);
-            $x[]=(($b*-1)-sqrt($discr))/(2*$a);
-        }
-        $this->x=$x;
-        return $x;
-    }
-}
+$eq = $a . "x^2 + " . $b . "x + " . $c . " = 0";
+Log::log("Entered equation: " . $eq);
+
+$equation = new Square();
+	$roots = $equation->solve($a, $b, $c);
+	
+	if(count($roots) == 2) {
+		Log::log("This equation has 2 roots: " . $roots[0] . ", " . $roots[1] . "\n");
+	} elseif(count($roots) == 1) {
+		Log::log("Equation root " . $roots[0] . "\n");
+	}
+	
+Log::write();
+?>
