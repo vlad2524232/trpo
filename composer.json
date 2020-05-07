@@ -1,0 +1,38 @@
+{
+  "minimum-stability": "dev",
+  "require": {
+    "php":">=7.4.5",
+    "vlad2524232/trpolib":"dev-master",
+    "rok9ru/trpo-core":"dev-master"
+  },"repositories":[
+    {
+      "type":"package",
+      "package":{
+        "name":"rok9ru/trpo-core",
+        "version":"dev-master",
+        "source":{
+          "type":"git",
+          "url":"https://github.com/rok9ru/trpo-core.git",
+          "reference":"master"
+        }
+      }
+    },{
+      "type":"package",
+      "package":{
+        "name":"vlad2524232/trpolib",
+        "version":"dev-master",
+        "source":{
+          "type":"git",
+          "url":"https://github.com/vlad2524232/trpolib.git",
+          "reference":"master"
+        }
+      }
+    }
+  ],
+  "autoload":{
+    "psr-4": {
+      "KK\\":"vendor\\vlad2524232\\trpolib",
+      "core\\":"vendor\\rok9ru\\trpo-core"
+    }
+  }
+}

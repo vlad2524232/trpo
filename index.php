@@ -1,45 +1,44 @@
 <?php
-include "core/LogAbstract.php";
-include "core/LogInterface.php";
-include "core/EquationInterface.php";
-include "vlad/MyException.php";
-include "vlad/Log.php";
-include "vlad/Linear.php";
-include "vlad/Square.php";
+
+if (file_exists(__DIR__."/vendor/autoload.php")) {
+    require __DIR__."/vendor/autoload.php";
+}
 
 use vlad\Log;
 use vlad\Square;
-use vlad\Linear;
 use vlad\MyException;
 
+$eq=new Square();
 
-echo "Enter koefs a, b, c \n";
-
-for($i = 0; $i < 3; $i ++) {
-	fscanf(STDIN, "%d\n", $number);
-	$kfArray[$i] =  $number;
-}
-
-$a = $kfArray[0];
-$b = $kfArray[1];
-$c = $kfArray[2];
-
-$eq = $a . "x^2 + " . $b . "x + " . $c . " = 0";
-Log::log("Entered equation: " . $eq);
+$a=0;
+$b=0;
+$c=0;
 
 try {
-	$equation = new Square();
-	$roots = $equation->solve($a, $b, $c);
-	
-	if(count($roots) == 2) {
-		Log::log("This equation has 2 roots: " . $roots[0] . ", " . $roots[1] . "\n");
-	} elseif(count($roots) == 1) {
-		Log::log("Equation root " . $roots[0] . "\n");
-	}
-	
-} catch(MyException $ex) {
-	Log::log($ex->getMessage() . "\n");
-}
-Log::write();
+    function entercheck($num,$letter)
+    {
+        $pattern = '#^[0-9]*[.]?[0-9]+$#';
+        for (;;) {
+            $num=readline("Enter $letter=");
+            echo "\n";
+            if(preg_match($pattern,$num))
+            {
+                return $num;
+            }
+            else {
+                echo "Inappropriate symbols. Can only type numbers and dot\n";
+            }
+        }
+        return $num;
+    }
 
-?>
+    $a=entercheck($a,'a');
+    $b=entercheck($b,'b');
+    $c=entercheck($c,'c');
+
+    $eq->solve($a,$b,$c);
+} catch (MyException $e) {
+    Log::log("Error: ".$e->getMessage());
+}
+
+Log::write();
